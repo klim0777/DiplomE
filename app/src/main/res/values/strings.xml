@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DiplomE</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ptz">PTZ</string>
+    <string name="presets">Presets</string>
+    <string name="cameras">Cameras</string>
+    <string name="minusSUKA">-</string>
+    <string name="plusSUKA">+</string>
+</resources>

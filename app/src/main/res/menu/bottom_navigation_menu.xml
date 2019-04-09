@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+    <item
+        android:id="@+id/action_ptz"
+        android:icon="@drawable/ic_ptz"
+        android:title="@string/ptz"/>
+    <item
+        android:id="@+id/action_presets"
+        android:icon="@drawable/ic_presets"
+        android:title="@string/presets" />
+    <item
+        android:id="@+id/action_cameras"
+        android:icon="@drawable/ic_cameras"
+        android:title="@string/cameras" />
+</menu>
