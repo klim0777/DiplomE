@@ -42,6 +42,8 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
 
+            Log.d("TAG","ha");
+
             //connection.connect();
 
             InputStream stream = connection.getInputStream();

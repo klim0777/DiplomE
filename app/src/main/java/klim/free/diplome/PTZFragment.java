@@ -107,12 +107,16 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
 
     @Override
     public void exceptionCatched(final String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), "Unable to perform request" + message,
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+        try {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), "Unable to perform request" + message,
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (NullPointerException e) {
+            Log.d(TAG,"FUCK");
+        }
     }
 }

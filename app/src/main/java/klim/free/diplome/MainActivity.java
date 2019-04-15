@@ -23,6 +23,8 @@ public class  MainActivity extends AppCompatActivity implements SimplePostTask.C
     private final static String TAG = "TAG";
     private BottomNavigationView mBottomNavigation;
 
+    public static final String URL_BASE = "http://188.246.233.224:8080/";
+
     private PTZFragment ptzFragment;
     private PresetsFragment presetsFragment;
     private CamerasFragment camerasFragment;
@@ -31,8 +33,6 @@ public class  MainActivity extends AppCompatActivity implements SimplePostTask.C
     private double currSpeedX, currSpeedY;
 
     private List<Camera> mCameraList = new ArrayList<>();
-
-    private SimplePostTask simplePostTask;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -58,8 +58,6 @@ public class  MainActivity extends AppCompatActivity implements SimplePostTask.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        simplePostTask = new SimplePostTask(this);
 
         ptzFragment = new PTZFragment();
         presetsFragment = new PresetsFragment();
@@ -112,7 +110,8 @@ public class  MainActivity extends AppCompatActivity implements SimplePostTask.C
                 return true;
             case (MotionEvent.ACTION_UP):
                 new SimplePostTask(this).execute("UnsetFlag");
-                return true;
+                // new SimplePostTask(this).execute("GetSnapshot");
+                               return true;
             default:
                 return super.onTouchEvent(event);
         }
@@ -187,4 +186,6 @@ public class  MainActivity extends AppCompatActivity implements SimplePostTask.C
             }
         });
     }
+
+
 }
