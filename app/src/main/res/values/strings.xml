@@ -8,4 +8,6 @@
     <string name="cameras">Cameras</string>
     <string name="minusSUKA">-</string>
     <string name="plusSUKA">+</string>
+    <string name="select_server">Select server</string>
+    <string name="about_developers">About developers</string>
 </resources>

@@ -1,5 +1,6 @@
 package klim.free.diplome;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,8 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
@@ -18,16 +22,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class  MainActivity extends AppCompatActivity implements SimplePostTask.CallBack {
+public class  MainActivity extends AppCompatActivity
+        implements SimplePostTask.CallBack,
+        CamerasFragment.CameraSelected {
 
     private final static String TAG = "TAG";
-    private BottomNavigationView mBottomNavigation;
 
-    public static final String URL_BASE = "http://188.246.233.224:8080/";
+    private BottomNavigationView mBottomNavigation;
 
     private PTZFragment ptzFragment;
     private PresetsFragment presetsFragment;
     private CamerasFragment camerasFragment;
+
+    private TextView mCameraSelected;
 
     private int xStart, yStart;
     private double currSpeedX, currSpeedY;
@@ -64,8 +71,7 @@ public class  MainActivity extends AppCompatActivity implements SimplePostTask.C
         camerasFragment = new CamerasFragment();
 
         camerasFragment.setList(mCameraList);
-
-        //mCameraList.add(new Camera("192.168.11.12","80"));
+        camerasFragment.setCallback(this);
 
         loadFragment(ptzFragment);
 
@@ -73,6 +79,8 @@ public class  MainActivity extends AppCompatActivity implements SimplePostTask.C
         mBottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mBottomNavigation.setSelectedItemId(R.id.action_cameras);
+
+        mCameraSelected = findViewById(R.id.camera_selected_indicator);
 
     }
 
@@ -187,5 +195,30 @@ public class  MainActivity extends AppCompatActivity implements SimplePostTask.C
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_select_server :
+                Intent intent = new Intent(this,SelectServerActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_about_developers :
+                Intent intent2 = new Intent(this,AboutActivity.class);
+                startActivity(intent2);
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void updateTextHint(String IP) {
+        mCameraSelected.setText("Selected camera : " + IP);
+    }
 }

@@ -24,7 +24,18 @@ import java.util.List;
 public class CamerasFragment extends Fragment
                                 implements DiscoveryTask.NotifyAdapter,
                                            SwipeRefreshLayout.OnRefreshListener,
-                                           SimplePostTask.CallBack{
+                                           SimplePostTask.CallBack {
+
+    interface CameraSelected {
+        void updateTextHint(String IP);
+    }
+
+    CameraSelected mCallback;
+
+    public void setCallback(CameraSelected callback) {
+        mCallback = callback;
+    }
+
     private final static String TAG =  "TAG";
 
     private List<Camera> mCameraList;
@@ -41,6 +52,7 @@ public class CamerasFragment extends Fragment
         mSwipeRefreshLayout.setRefreshing(false);
         mSwipeHint.setVisibility(View.GONE);
         mAdapter.notifyDataSetChanged();
+        Log.d(TAG,"h");
     }
 
     public CamerasFragment() {
@@ -156,6 +168,7 @@ public class CamerasFragment extends Fragment
                 Log.d(TAG,"tapped on " + cameraToConnect.getIp());
                 new SimplePostTask(callBack).execute("SelectCamera?IP=" + cameraToConnect.getIp() +
                         "&Port=" + cameraToConnect.getPort());
+                mCallback.updateTextHint(cameraToConnect.getIp());
             }
         });
 

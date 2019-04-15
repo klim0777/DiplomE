@@ -32,7 +32,7 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
         BufferedReader reader = null;
         String url = "http://188.246.233.224:8080/";
         url = url + params[0];
-        Log.d("TAG","url + " + url);
+        Log.d("TAG","url :" + url);
         try {
             URL urlFinal = new URL(url);
             connection = (HttpURLConnection) urlFinal.openConnection();
@@ -52,7 +52,7 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
 
             String finalJson = buffer.toString();
 
-            Log.d("TAG","responce + ");
+            Log.d("TAG","responce " + finalJson);
 
             return finalJson;
 
