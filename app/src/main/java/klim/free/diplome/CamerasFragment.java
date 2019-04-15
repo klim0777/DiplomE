@@ -52,7 +52,6 @@ public class CamerasFragment extends Fragment
         mSwipeRefreshLayout.setRefreshing(false);
         mSwipeHint.setVisibility(View.GONE);
         mAdapter.notifyDataSetChanged();
-        Log.d(TAG,"h");
     }
 
     public CamerasFragment() {

@@ -21,6 +21,8 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
     DiscoveryTask(List<Camera> list, NotifyAdapter callback) {
         mCameraList = list;
         mCallback = callback;
+
+        mCameraList.clear();
     }
 
     interface NotifyAdapter {
@@ -95,7 +97,9 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
         for (int i = 0; i < list.size() - 1; i++) {
             if (i % 2 == 0) {
                 Camera buff = new Camera(list.get(i),list.get(i+1));
-                mCameraList.add(buff);
+                if (!mCameraList.contains(buff)) {
+                    mCameraList.add(buff);
+                }
             }
         }
 

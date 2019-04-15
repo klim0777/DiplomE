@@ -73,10 +73,11 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
                         dialog.dismiss();
 
-                        new SimplePostTask(callBack).execute("SetPreset?PresetNumber" + (which + 201));
+                        new SimplePostTask(callBack).execute("SetPreset?PresetNumber=" + (which + 81));
 
                         Toast.makeText(getActivity(), "Preset saved at number " + (which + 1),
                                 Toast.LENGTH_LONG).show();
+
                     }
 
                 });
@@ -119,11 +120,11 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onClick(View v) {
         Button butt = (Button) v;
-        // button num + 200 = request parameter
+        // button num + 80 = request parameter
         // redo
         int presetNum = Integer.valueOf(String.valueOf(butt.getText()));
 
-        new SimplePostTask(this).execute("GotoPreset?PresetNumber=" + (presetNum + 200));
+        new SimplePostTask(this).execute("GotoPreset?PresetNumber=" + (presetNum + 80));
     }
 
     @Override

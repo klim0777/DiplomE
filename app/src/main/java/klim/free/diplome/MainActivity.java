@@ -140,10 +140,10 @@ public class  MainActivity extends AppCompatActivity
         double speedX = (double) diffX * 3 / (double) width;
         double speedY = (double) diffY * 3 / (double) height;
 
-        DecimalFormat form = new DecimalFormat("0.0");
+        DecimalFormat form = new DecimalFormat("#.#");
 
-        double speedXFormatted = Double.valueOf(form.format(speedX));
-        double speedYFormatted = Double.valueOf(form.format(speedY));
+        double speedXFormatted = Math.round(speedX * 10) / 10.0;
+        double speedYFormatted = Math.round(speedY * 10) / 10.0;
 
         Log.d(TAG,"speedX : " + speedXFormatted);
         Log.d(TAG,"speedY : " + speedYFormatted);
