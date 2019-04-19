@@ -1,10 +1,8 @@
 package klim.free.diplome;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.icu.util.LocaleData;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -21,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+@SuppressWarnings({"FieldCanBeLocal", "unused", "RedundantCast", "NullableProblems"})
 public class CamerasFragment extends Fragment
                                 implements DiscoveryTask.NotifyAdapter,
                                            SwipeRefreshLayout.OnRefreshListener,
@@ -101,7 +100,7 @@ public class CamerasFragment extends Fragment
             public void onClick(View v) {
                 // manually add camera
                 LayoutInflater li = LayoutInflater.from(getContext());
-                View promptsView = li.inflate(R.layout.camera_dialog, null);
+                @SuppressLint("InflateParams") View promptsView = li.inflate(R.layout.camera_dialog, null);
 
                 //Создаем AlertDialog
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
