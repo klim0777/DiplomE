@@ -199,7 +199,7 @@ public class CamerasFragment extends Fragment
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "Unable to perform request" + message,
+                    Toast.makeText(getActivity(), "Unable to perform request " + message,
                             Toast.LENGTH_LONG).show();
                 }
             });

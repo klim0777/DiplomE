@@ -24,7 +24,7 @@ import java.util.List;
 @SuppressWarnings("FieldCanBeLocal")
 public class  MainActivity extends AppCompatActivity
         implements SimplePostTask.CallBack,
-        CamerasFragment.CameraSelected {
+                   CamerasFragment.CameraSelected {
 
     private final static String TAG = "TAG";
 
@@ -123,6 +123,7 @@ public class  MainActivity extends AppCompatActivity
             default:
                 return super.onTouchEvent(event);
         }
+
     }
 
     private void tracking(int x, int y) {
@@ -189,7 +190,7 @@ public class  MainActivity extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "Unable to perform request" + message,
+                Toast.makeText(getApplicationContext(), "Unable to perform request " + message,
                         Toast.LENGTH_LONG).show();
             }
         });

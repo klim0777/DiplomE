@@ -18,8 +18,6 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
 
     private Button buttonZoomIn, buttonZoomOut;
 
-    private SimplePostTask simplePostTask;
-
     public PTZFragment() {
         // Required empty public constructor
     }
@@ -48,8 +46,6 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
 
         buttonZoomOut = view.findViewById(R.id.buttonZoomOut);
         buttonZoomIn = view.findViewById(R.id.buttonZoomIn);
-
-        simplePostTask = new SimplePostTask(this);
 
         final SimplePostTask.CallBack callBack = this;
 
@@ -111,7 +107,7 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "Unable to perform request" + message,
+                    Toast.makeText(getActivity(), "Unable to perform request " + message,
                             Toast.LENGTH_LONG).show();
                 }
             });
