@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings({"UnnecessaryLocalVariable", "StringBufferMayBeStringBuilder", "UnusedAssignment", "Convert2Diamond"})
 public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
 
     private List<Camera> mCameraList;
@@ -29,7 +30,7 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
         void doIt();
     }
 
-    NotifyAdapter mCallback;
+    private NotifyAdapter mCallback;
 
     @Override
     protected String doInBackground(Double... params) {
@@ -49,7 +50,7 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));
             StringBuffer buffer = new StringBuffer();
-            String line ="";
+            String line = "";
             while ((line = reader.readLine()) != null) {
                 buffer.append(line);
             }

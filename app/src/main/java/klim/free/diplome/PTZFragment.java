@@ -1,8 +1,6 @@
 package klim.free.diplome;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+@SuppressWarnings({"FieldCanBeLocal", "unused", "NullableProblems", "ConstantConditions"})
 public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
     private final static String TAG =  "TAG";
 

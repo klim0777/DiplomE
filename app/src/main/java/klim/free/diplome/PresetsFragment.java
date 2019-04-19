@@ -1,9 +1,7 @@
 package klim.free.diplome;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -14,9 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.List;
 
-
+@SuppressWarnings({"FieldCanBeLocal", "unused", "NullableProblems", "ConstantConditions"})
 public class PresetsFragment extends Fragment implements View.OnClickListener, SimplePostTask.CallBack {
 
     private final static String TAG =  "TAG";
@@ -26,7 +23,6 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
     private FloatingActionButton mFab;
 
-    private SimplePostTask simplePostTask;
 
     public PresetsFragment() {
         // Required empty public constructor
@@ -54,8 +50,6 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
         Log.d(TAG,"presetsFragment onCreateView");
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_presets, container, false);
-
-        simplePostTask = new SimplePostTask(this);
 
         final SimplePostTask.CallBack callBack = this;
 

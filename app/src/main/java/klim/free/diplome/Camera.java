@@ -1,5 +1,6 @@
 package klim.free.diplome;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Camera {
     private String ip, port;
     private String login, password;

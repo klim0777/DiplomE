@@ -1,5 +1,6 @@
 package klim.free.diplome;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
@@ -21,7 +22,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("FieldCanBeLocal")
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class  MainActivity extends AppCompatActivity
         implements SimplePostTask.CallBack,
                    CamerasFragment.CameraSelected {
@@ -141,8 +142,6 @@ public class  MainActivity extends AppCompatActivity
         double speedX = (double) diffX * 3 / (double) width;
         double speedY = (double) diffY * 3 / (double) height;
 
-        DecimalFormat form = new DecimalFormat("#.#");
-
         double speedXFormatted = Math.round(speedX * 10) / 10.0;
         double speedYFormatted = Math.round(speedY * 10) / 10.0;
 
@@ -218,6 +217,7 @@ public class  MainActivity extends AppCompatActivity
         return false;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void updateTextHint(String IP) {
         mCameraSelected.setText("Selected camera : " + IP);

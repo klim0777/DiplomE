@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class CameraAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;

@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+@SuppressWarnings({"StringBufferMayBeStringBuilder", "UnusedAssignment"})
 public class MoveTask extends AsyncTask<Double, Void, String> {
 
     // get JSONArray
@@ -36,7 +37,7 @@ public class MoveTask extends AsyncTask<Double, Void, String> {
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));
             StringBuffer buffer = new StringBuffer();
-            String line ="";
+            String line = "";
             while ((line = reader.readLine()) != null) {
                 buffer.append(line);
             }
