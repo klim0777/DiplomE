@@ -21,6 +21,12 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
         // Required empty public constructor
     }
 
+    private String mServer, mPort;
+
+    public void setServerAndPort(String server, String port) {
+        mServer = server;
+        mPort = port;
+    }
 
     public static PTZFragment newInstance(String param1, String param2) {
         PTZFragment fragment = new PTZFragment();
@@ -54,14 +60,18 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case (MotionEvent.ACTION_DOWN):
-                        new SimplePostTask(callBack).execute("ZoomIn");
+                        new SimplePostTask(callBack)
+                                .setServerAndPort(mServer,mPort)
+                                .execute("ZoomIn");
                         Log.d(TAG,"down");
                         return true;
                     case (MotionEvent.ACTION_MOVE):
                         Log.d(TAG,"move");
                         return true;
                     case (MotionEvent.ACTION_UP):
-                        new SimplePostTask(callBack).execute("MoveStop");
+                        new SimplePostTask(callBack)
+                                .setServerAndPort(mServer,mPort)
+                                .execute("MoveStop");
                         // moveStop
                         Log.d(TAG,"up");
                         return true;
@@ -75,14 +85,19 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case (MotionEvent.ACTION_DOWN):
-                        new SimplePostTask(callBack).execute("ZoomOut");
+                        new SimplePostTask(callBack)
+                                .setServerAndPort(mServer,mPort)
+                                .execute("ZoomOut");
+                        // new SimplePostTask(callBack).execute("ZoomOut");
                         Log.d(TAG,"down");
                         return true;
                     case (MotionEvent.ACTION_MOVE):
                         Log.d(TAG,"move");
                         return true;
                     case (MotionEvent.ACTION_UP):
-                        new SimplePostTask(callBack).execute("MoveStop");
+                        new SimplePostTask(callBack)
+                                .setServerAndPort(mServer,mPort)
+                                .execute("MoveStop");
                         Log.d(TAG,"up");
                         return true;
                 }

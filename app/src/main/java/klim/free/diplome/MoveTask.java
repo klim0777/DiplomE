@@ -14,17 +14,24 @@ import java.net.URL;
 @SuppressWarnings({"StringBufferMayBeStringBuilder", "UnusedAssignment"})
 public class MoveTask extends AsyncTask<Double, Void, String> {
 
+    private String mUrl;
+
+    public MoveTask setServerAndPort(String server, String port) {
+        mUrl = "http://" + server + ":" + port + "/ContinuousMove?x=";
+        return this;
+    }
+
     // get JSONArray
     @Override
     protected String doInBackground(Double... params) {
 
         HttpURLConnection connection = null;
         BufferedReader reader = null;
-        String url = "http://188.246.233.224:8080/ContinuousMove?x=";
+        String url = mUrl;
         url = url + params[0];
         url = url + "&y=";
         url = url + params[1];
-        Log.d("TAG","u + " + url);
+        Log.d("TAG","url : " + url);
         try {
             URL urlFinal = new URL(url);
             connection = (HttpURLConnection) urlFinal.openConnection();

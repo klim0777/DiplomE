@@ -31,6 +31,13 @@ public class CamerasFragment extends Fragment
 
     CameraSelected mCallback;
 
+    private String mServer, mPort;
+
+    public void setServerAndPort(String server, String port) {
+        mServer = server;
+        mPort = port;
+    }
+
     public void setCallback(CameraSelected callback) {
         mCallback = callback;
     }
@@ -164,7 +171,10 @@ public class CamerasFragment extends Fragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Camera cameraToConnect = mCameraList.get(position);
                 Log.d(TAG,"tapped on " + cameraToConnect.getIp());
-                new SimplePostTask(callBack).execute("SelectCamera?IP=" + cameraToConnect.getIp() +
+                new SimplePostTask(callBack)
+                        .setServerAndPort(mServer,mPort)
+                        .setMethod("GET")
+                        .execute("SelectCamera?IP=" + cameraToConnect.getIp() +
                         "&Port=" + cameraToConnect.getPort());
                 mCallback.updateTextHint(cameraToConnect.getIp());
             }
@@ -188,7 +198,9 @@ public class CamerasFragment extends Fragment
 
     @Override
     public void onRefresh() {
-        new DiscoveryTask(mCameraList,this).execute();
+        new DiscoveryTask(mCameraList,this)
+                .setServerAndPort(mServer,mPort)
+                .execute();
     }
 
     @SuppressWarnings("ConstantConditions")

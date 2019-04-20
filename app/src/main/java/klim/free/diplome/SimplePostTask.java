@@ -18,6 +18,9 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
         void exceptionCatched(String message);
     }
 
+    private String mUrl;
+    private String mMethod = "";
+
     CallBack mCallback;
 
     SimplePostTask(CallBack callBack) {
@@ -25,21 +28,39 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
     }
 
 
+    public SimplePostTask setServerAndPort(String server, String port) {
+        mUrl = "http://" + server + ":" + port + "/";
+        return this;
+    }
+
+    public SimplePostTask setMethod(String method) {
+        mMethod = method;
+        return this;
+    }
+
     // get JSONArray
     @Override
     protected String doInBackground(String... params) {
 
         HttpURLConnection connection = null;
         BufferedReader reader = null;
-        String url = "http://188.246.233.224:8080/";
+        // String url = "http://188.246.233.224:8080/";
+        String url = mUrl;
         url = url + params[0];
-        Log.d("TAG","url :" + url);
+        Log.d("TAG","url : " + url);
         try {
             URL urlFinal = new URL(url);
             connection = (HttpURLConnection) urlFinal.openConnection();
             connection.setDoInput(true);
             connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
+
+            if (mMethod.equals("")) {
+                Log.d("TAG","method was null, has been set to POST");
+                connection.setRequestMethod("POST");
+            } else {
+                Log.d("TAG","GET method");
+                connection.setRequestMethod(mMethod);
+            }
 
             //connection.connect();
 

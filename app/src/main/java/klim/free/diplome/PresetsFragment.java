@@ -23,6 +23,12 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
     private FloatingActionButton mFab;
 
+    private String mServer, mPort;
+
+    public void setServerAndPort(String server, String port) {
+        mServer = server;
+        mPort = port;
+    }
 
     public PresetsFragment() {
         // Required empty public constructor
@@ -67,7 +73,9 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
                         dialog.dismiss();
 
-                        new SimplePostTask(callBack).execute("SetPreset?PresetNumber=" + (which + 81));
+                        new SimplePostTask(callBack)
+                                .setServerAndPort(mServer,mPort)
+                                .execute("SetPreset?PresetNumber=" + (which + 81));
 
                         Toast.makeText(getActivity(), "Preset saved at number " + (which + 1),
                                 Toast.LENGTH_LONG).show();
@@ -118,7 +126,9 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
         // redo
         int presetNum = Integer.valueOf(String.valueOf(butt.getText()));
 
-        new SimplePostTask(this).execute("GotoPreset?PresetNumber=" + (presetNum + 80));
+        new SimplePostTask(this)
+                .setServerAndPort(mServer,mPort)
+                .execute("GotoPreset?PresetNumber=" + (presetNum + 80));
     }
 
     @Override

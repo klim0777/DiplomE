@@ -42,6 +42,9 @@ public class  MainActivity extends AppCompatActivity
 
     private List<Camera> mCameraList = new ArrayList<>();
 
+    private static String mServer = "188.246.233.224";
+    private static String mPort = "8080";
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -71,6 +74,10 @@ public class  MainActivity extends AppCompatActivity
         presetsFragment = new PresetsFragment();
         camerasFragment = new CamerasFragment();
 
+        ptzFragment.setServerAndPort(mServer,mPort);
+        presetsFragment.setServerAndPort(mServer,mPort);
+        camerasFragment.setServerAndPort(mServer,mPort);
+
         camerasFragment.setList(mCameraList);
         camerasFragment.setCallback(this);
 
@@ -83,6 +90,26 @@ public class  MainActivity extends AppCompatActivity
 
         mCameraSelected = findViewById(R.id.camera_selected_indicator);
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String IP = extras.getString("IP");
+            String Port = extras.getString("Port");
+            Log.d(TAG,"retrieved " + IP + "," + Port);
+            mPort = Port;
+            mServer = IP;
+            ptzFragment.setServerAndPort(mServer,mPort);
+            presetsFragment.setServerAndPort(mServer,mPort);
+            camerasFragment.setServerAndPort(mServer,mPort);
+
+        }
+        Log.d(TAG,"mainActivity onResume(), server :" + mServer + ", port :" + mPort);
+
+        super.onResume();
     }
 
     private boolean loadFragment(Fragment fragment) {
@@ -110,7 +137,9 @@ public class  MainActivity extends AppCompatActivity
                 yStart = (int) event.getY();
                 currSpeedX = 0.0;
                 currSpeedY = 0.0;
-                new SimplePostTask(this).execute("SetFlag");
+                new SimplePostTask(this)
+                        .setServerAndPort(mServer,mPort)
+                        .execute("SetFlag");
                 return true;
             case (MotionEvent.ACTION_MOVE):
                 int x = (int) event.getX();
@@ -118,7 +147,9 @@ public class  MainActivity extends AppCompatActivity
                 tracking(x,y);
                 return true;
             case (MotionEvent.ACTION_UP):
-                new SimplePostTask(this).execute("UnsetFlag");
+                new SimplePostTask(this)
+                        .setServerAndPort(mServer,mPort)
+                        .execute("UnsetFlag");
                 // new SimplePostTask(this).execute("GetSnapshot");
                                return true;
             default:
@@ -178,7 +209,9 @@ public class  MainActivity extends AppCompatActivity
                 speedYFormatted = -1.0;
             }
 
-            new MoveTask().execute(speedXFormatted,-speedYFormatted);
+            new MoveTask()
+                    .setServerAndPort(mServer,mPort)
+                    .execute(speedXFormatted,-speedYFormatted);
 
         }
 

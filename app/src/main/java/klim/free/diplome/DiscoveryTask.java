@@ -18,6 +18,7 @@ import java.util.List;
 public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
 
     private List<Camera> mCameraList;
+    private String mUrl;
 
     DiscoveryTask(List<Camera> list, NotifyAdapter callback) {
         mCameraList = list;
@@ -32,12 +33,19 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
 
     private NotifyAdapter mCallback;
 
+    public DiscoveryTask setServerAndPort(String server, String port) {
+        mUrl = "http://" + server + ":" + port + "/Discovery";
+        return this;
+    }
+
+
     @Override
     protected String doInBackground(Double... params) {
 
         HttpURLConnection connection = null;
         BufferedReader reader = null;
-        String url = "http://188.246.233.224:8080/Discovery";
+        String url = mUrl;
+        Log.d("TAG","url : " + url);
         try {
             URL urlFinal = new URL(url);
             connection = (HttpURLConnection) urlFinal.openConnection();
