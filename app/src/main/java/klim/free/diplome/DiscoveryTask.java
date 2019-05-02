@@ -1,6 +1,5 @@
 package klim.free.diplome;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,9 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static android.support.constraint.Constraints.TAG;
-
-@SuppressWarnings({"UnnecessaryLocalVariable", "StringBufferMayBeStringBuilder", "UnusedAssignment", "Convert2Diamond"})
+@SuppressWarnings({"UnnecessaryLocalVariable", "StringBufferMayBeStringBuilder", "UnusedAssignment", "Convert2Diamond", "WeakerAccess"})
 public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
 
     private List<Camera> mCameraList;

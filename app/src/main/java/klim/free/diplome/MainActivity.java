@@ -2,23 +2,18 @@ package klim.free.diplome;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Point;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,39 +120,6 @@ public class  MainActivity extends AppCompatActivity
 
         return false;
     }
-/*
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        int action = MotionEventCompat.getActionMasked(event);
-
-        switch (action) {
-            case (MotionEvent.ACTION_DOWN):
-                xStart = (int) event.getX();
-                yStart = (int) event.getY();
-                currSpeedX = 0.0;
-                currSpeedY = 0.0;
-                new SimplePostTask(this)
-                        .setServerAndPort(mServer,mPort)
-                        .execute("SetFlag");
-                return true;
-            case (MotionEvent.ACTION_MOVE):
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-                tracking(x,y);
-                return true;
-            case (MotionEvent.ACTION_UP):
-                new SimplePostTask(this)
-                        .setServerAndPort(mServer,mPort)
-                        .execute("UnsetFlag?number=" + mCameraNum);
-                               return true;
-            default:
-                return super.onTouchEvent(event);
-        }
-
-    }
-*/
 
     @Override
     public void exceptionCatched(final String message) {
@@ -182,6 +144,10 @@ public class  MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_select_server :
                 Intent intent = new Intent(this,SelectServerActivity.class);
+
+                intent.putExtra("IP",mServer);
+                intent.putExtra("Port",mPort);
+
                 startActivity(intent);
                 return true;
             case R.id.action_about_developers :

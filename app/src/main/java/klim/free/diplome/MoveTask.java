@@ -11,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@SuppressWarnings({"StringBufferMayBeStringBuilder", "UnusedAssignment"})
+@SuppressWarnings({"StringBufferMayBeStringBuilder", "UnusedAssignment", "WeakerAccess"})
 public class MoveTask extends AsyncTask<Double, Void, String> {
 
     private String mUrl;

@@ -11,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@SuppressWarnings({"WeakerAccess", "StringBufferMayBeStringBuilder", "UnusedAssignment"})
+@SuppressWarnings({"WeakerAccess", "StringBufferMayBeStringBuilder", "UnusedAssignment", "unused"})
 public class SimplePostTask extends AsyncTask<String, Void, String> {
 
     interface CallBack {

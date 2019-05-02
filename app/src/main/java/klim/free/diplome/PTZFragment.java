@@ -191,6 +191,7 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
                 }
             });
         } catch (NullPointerException e) {
+            Log.d(TAG,"FUCK");
         }
     }
 

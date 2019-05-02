@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class SelectServerActivity extends AppCompatActivity {
 
     private EditText mIpEditText, mPortEditText;
@@ -36,6 +38,23 @@ public class SelectServerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String IP = extras.getString("IP");
+            String Port = extras.getString("Port");
+
+            Log.d("TAG","retrieved " + IP + "," + Port);
+
+            mIpEditText.setText(IP);
+            mPortEditText.setText(Port);
+        }
 
     }
 }

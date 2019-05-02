@@ -1,8 +1,5 @@
 package klim.free.diplome;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,7 +78,7 @@ public class CamerasFragment extends Fragment
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         mCameraListView = view.findViewById(R.id.camera_list_view);
-        floatingActionButton = view.findViewById(R.id.fab);
+
         mSwipeHint = view.findViewById(R.id.swipe_hint);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
