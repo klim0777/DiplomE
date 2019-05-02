@@ -1,5 +1,6 @@
 package klim.free.diplome;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,24 +15,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.support.constraint.Constraints.TAG;
+
 @SuppressWarnings({"UnnecessaryLocalVariable", "StringBufferMayBeStringBuilder", "UnusedAssignment", "Convert2Diamond"})
 public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
 
     private List<Camera> mCameraList;
     private String mUrl;
 
-    DiscoveryTask(List<Camera> list, NotifyAdapter callback) {
+    DiscoveryTask(List<Camera> list, DiscoveryTaskCallback callback) {
         mCameraList = list;
         mCallback = callback;
 
         mCameraList.clear();
     }
 
-    interface NotifyAdapter {
-        void doIt();
+    interface DiscoveryTaskCallback {
+        void success();
+        void error();
     }
 
-    private NotifyAdapter mCallback;
+    private DiscoveryTaskCallback mCallback;
 
     public DiscoveryTask setServerAndPort(String server, String port) {
         mUrl = "http://" + server + ":" + port + "/Discovery";
@@ -98,21 +102,24 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
         Log.d("TAG","response " + response);
 
         if (response == null) {
+            mCallback.error();
             return;
         }
 
         List<String> list = new ArrayList<String>(Arrays.asList(response.split(",")));
 
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (i % 2 == 0) {
-                Camera buff = new Camera(list.get(i),list.get(i+1));
-                if (!mCameraList.contains(buff)) {
-                    mCameraList.add(buff);
-                }
+        for (int i = 0; i < list.size() ; i++) {
+            if (i % 3 == 0) {
+                Camera buff = new Camera(list.get(i), list.get(i+1), Integer.valueOf(list.get(i+2)));
+                Log.d("TAG","i = " + i +
+                        " camera : " + buff.getIp() +
+                        " " +  buff.getPort() + " " + buff.getNumber());
+                mCameraList.add(buff);
             }
         }
 
-        mCallback.doIt();
+
+        mCallback.success();
     }
 
 }

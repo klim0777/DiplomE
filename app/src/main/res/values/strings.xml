@@ -9,4 +9,6 @@
     <string name="plusSUKA">+</string>
     <string name="select_server">Select server</string>
     <string name="about_developers">About developers</string>
+    <string name="server_ip">server IP</string>
+    <string name="server_port">server Port</string>
 </resources>

@@ -21,28 +21,19 @@ import java.util.List;
 
 @SuppressWarnings({"FieldCanBeLocal", "unused", "RedundantCast", "NullableProblems"})
 public class CamerasFragment extends Fragment
-                                implements DiscoveryTask.NotifyAdapter,
+                                implements DiscoveryTask.DiscoveryTaskCallback,
                                            SwipeRefreshLayout.OnRefreshListener,
                                            SimplePostTask.CallBack {
 
     interface CameraSelected {
-        void updateTextHint(String IP);
-    }
-
-    CameraSelected mCallback;
-
-    private String mServer, mPort;
-
-    public void setServerAndPort(String server, String port) {
-        mServer = server;
-        mPort = port;
-    }
-
-    public void setCallback(CameraSelected callback) {
-        mCallback = callback;
+        void cameraSelectedCallback(String IP, Integer number);
     }
 
     private final static String TAG =  "TAG";
+
+    private CameraSelected mCallback;
+
+    private String mServer, mPort;
 
     private List<Camera> mCameraList;
 
@@ -53,18 +44,14 @@ public class CamerasFragment extends Fragment
 
     private CameraAdapter mAdapter;
 
-    @Override
-    public void doIt() {
-        mSwipeRefreshLayout.setRefreshing(false);
-        mSwipeHint.setVisibility(View.GONE);
-        mAdapter.notifyDataSetChanged();
+    public void setServerAndPort(String server, String port) {
+        mServer = server;
+        mPort = port;
     }
 
-    public CamerasFragment() {
-        // Required empty public constructor
+    public void setCallback(CameraSelected callback) {
+        mCallback = callback;
     }
-
-   //GetSnapshotUri()
 
     public void setList(List<Camera> list) {
         mCameraList = list;
@@ -76,6 +63,10 @@ public class CamerasFragment extends Fragment
 
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public CamerasFragment() {
+        // Required empty public constructor
     }
 
     @Override
@@ -100,8 +91,8 @@ public class CamerasFragment extends Fragment
         mCameraListView.setAdapter(mAdapter);
 
 
-        final DiscoveryTask.NotifyAdapter callback = this;
-
+        final DiscoveryTask.DiscoveryTaskCallback callback = this;
+/*
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +113,7 @@ public class CamerasFragment extends Fragment
 
                 //Настраиваем сообщение в диалоговом окне:
                 mDialogBuilder
+                        .setTitle("Add camera")
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
@@ -131,7 +123,7 @@ public class CamerasFragment extends Fragment
                                         String login = loginEditText.getText().toString();
                                         String password = passwordEditText.getText().toString();
 
-                                        Camera cameraBuff = new Camera(ip,port);
+                                        Camera cameraBuff = new Camera(ip,port,1);
 
                                         if (loginEditText.getText().toString().equals("")) {
                                             Log.d(TAG,"loginEditText is empty ");
@@ -163,20 +155,16 @@ public class CamerasFragment extends Fragment
 
             }
         });
-
+*/
         final SimplePostTask.CallBack callBack = this;
 
         mCameraListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Camera cameraToConnect = mCameraList.get(position);
-                Log.d(TAG,"tapped on " + cameraToConnect.getIp());
-                new SimplePostTask(callBack)
-                        .setServerAndPort(mServer,mPort)
-                        .setMethod("GET")
-                        .execute("SelectCamera?IP=" + cameraToConnect.getIp() +
-                        "&Port=" + cameraToConnect.getPort());
-                mCallback.updateTextHint(cameraToConnect.getIp());
+                Log.d(TAG,"tapped on " + cameraToConnect.getNumber());
+
+                mCallback.cameraSelectedCallback(cameraToConnect.getIp(), cameraToConnect.getNumber());
             }
         });
 
@@ -218,4 +206,19 @@ public class CamerasFragment extends Fragment
             Log.d(TAG,"FUCK");
         }
     }
+
+    // DiscoveryTask callback
+    @Override
+    public void success() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeHint.setVisibility(View.GONE);
+        mAdapter.notifyDataSetChanged();
+    }
+    // Discovery task callback
+    @Override
+    public void error() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        exceptionCatched(": discovery failed");
+    }
+
 }

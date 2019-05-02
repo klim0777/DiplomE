@@ -37,13 +37,12 @@ public class  MainActivity extends AppCompatActivity
 
     private TextView mCameraSelected;
 
-    private int xStart, yStart;
-    private double currSpeedX, currSpeedY;
-
     private List<Camera> mCameraList = new ArrayList<>();
 
-    private static String mServer = "188.246.233.224";
-    private static String mPort = "8080";
+    private String mServer = "188.246.233.224";
+    private String mPort = "8080";
+
+    private Integer mCameraNum;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -99,7 +98,9 @@ public class  MainActivity extends AppCompatActivity
         if (extras != null) {
             String IP = extras.getString("IP");
             String Port = extras.getString("Port");
+
             Log.d(TAG,"retrieved " + IP + "," + Port);
+
             mPort = Port;
             mServer = IP;
             ptzFragment.setServerAndPort(mServer,mPort);
@@ -124,7 +125,7 @@ public class  MainActivity extends AppCompatActivity
 
         return false;
     }
-
+/*
     @SuppressWarnings("deprecation")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -149,73 +150,14 @@ public class  MainActivity extends AppCompatActivity
             case (MotionEvent.ACTION_UP):
                 new SimplePostTask(this)
                         .setServerAndPort(mServer,mPort)
-                        .execute("UnsetFlag");
-                // new SimplePostTask(this).execute("GetSnapshot");
+                        .execute("UnsetFlag?number=" + mCameraNum);
                                return true;
             default:
                 return super.onTouchEvent(event);
         }
 
     }
-
-    private void tracking(int x, int y) {
-        boolean changed = false;
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        int diffX = x - xStart;
-        int diffY = y - yStart;
-
-        double speedX = (double) diffX * 3 / (double) width;
-        double speedY = (double) diffY * 3 / (double) height;
-
-        double speedXFormatted = Math.round(speedX * 10) / 10.0;
-        double speedYFormatted = Math.round(speedY * 10) / 10.0;
-
-        Log.d(TAG,"speedX : " + speedXFormatted);
-        Log.d(TAG,"speedY : " + speedYFormatted);
-
-        if (currSpeedX == speedXFormatted) {
-            Log.d(TAG,"x still the same : " + currSpeedX + " " + speedXFormatted);
-        } else {
-            currSpeedX = speedXFormatted;
-            changed = true;
-            Log.d(TAG,"x changed");
-        }
-
-        if (currSpeedY == speedYFormatted) {
-            Log.d(TAG,"y still the same : " + currSpeedX + " " + speedXFormatted);
-        } else {
-            currSpeedY = speedYFormatted;
-            changed = true;
-            Log.d(TAG,"y changed");
-        }
-
-        if (changed) {
-
-            if (speedXFormatted > 1) {
-                speedXFormatted = 1.0;
-            } else if (speedXFormatted < -1.0) {
-                speedXFormatted = -1.0;
-            }
-
-            if (speedYFormatted > 1) {
-                speedYFormatted = 1.0;
-            } else if (speedYFormatted < -1.0) {
-                speedYFormatted = -1.0;
-            }
-
-            new MoveTask()
-                    .setServerAndPort(mServer,mPort)
-                    .execute(speedXFormatted,-speedYFormatted);
-
-        }
-
-    }
+*/
 
     @Override
     public void exceptionCatched(final String message) {
@@ -252,7 +194,10 @@ public class  MainActivity extends AppCompatActivity
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void updateTextHint(String IP) {
+    public void cameraSelectedCallback(String IP, Integer number) {
         mCameraSelected.setText("Selected camera : " + IP);
+        mCameraNum = number;
+        ptzFragment.setCameraNumber(mCameraNum);
+        presetsFragment.setCameraNumber(mCameraNum);
     }
 }

@@ -4,10 +4,12 @@ package klim.free.diplome;
 public class Camera {
     private String ip, port;
     private String login, password;
+    private Integer number;
 
-    Camera(String ip, String port) {
+    Camera(String ip, String port, Integer number) {
         this.ip = ip;
         this.port = port;
+        this.number = number;
         login = "admin";
         password = "Supervisor";
     }
@@ -42,5 +44,13 @@ public class Camera {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 }

@@ -15,9 +15,15 @@ import java.net.URL;
 public class MoveTask extends AsyncTask<Double, Void, String> {
 
     private String mUrl;
+    private Integer mNumber;
 
     public MoveTask setServerAndPort(String server, String port) {
         mUrl = "http://" + server + ":" + port + "/ContinuousMove?x=";
+        return this;
+    }
+
+    public MoveTask setNumber(Integer number) {
+        mNumber = number;
         return this;
     }
 
@@ -31,7 +37,8 @@ public class MoveTask extends AsyncTask<Double, Void, String> {
         url = url + params[0];
         url = url + "&y=";
         url = url + params[1];
-        Log.d("TAG","url : " + url);
+        url = url + "&number=" +  mNumber;
+        Log.d("TAG2","url : " + url);
         try {
             URL urlFinal = new URL(url);
             connection = (HttpURLConnection) urlFinal.openConnection();

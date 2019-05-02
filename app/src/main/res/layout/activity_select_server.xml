@@ -23,25 +23,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_horizontal"
-            android:text="FUCK YOU IDIOT" />
-
         <EditText
             android:id="@+id/serverIP"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="server IP" />
+            android:hint="@string/server_ip" />
 
         <EditText
             android:id="@+id/serverPort"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="server Port" />
+            android:hint="@string/server_port" />
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

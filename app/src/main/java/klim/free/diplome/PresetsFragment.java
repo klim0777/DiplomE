@@ -25,9 +25,15 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
     private String mServer, mPort;
 
+    private Integer mCameraNum;
+
     public void setServerAndPort(String server, String port) {
         mServer = server;
         mPort = port;
+    }
+
+    public void setCameraNumber(Integer number) {
+        mCameraNum = number;
     }
 
     public PresetsFragment() {
@@ -53,6 +59,7 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         Log.d(TAG,"presetsFragment onCreateView");
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_presets, container, false);
@@ -73,12 +80,18 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
                         dialog.dismiss();
 
-                        new SimplePostTask(callBack)
-                                .setServerAndPort(mServer,mPort)
-                                .execute("SetPreset?PresetNumber=" + (which + 81));
+                        if (mCameraNum != null) {
+                            new SimplePostTask(callBack)
+                                    .setServerAndPort(mServer,mPort)
+                                    .execute("SetPreset?PresetNumber="
+                                            + (which + 81)
+                                            + "&number=" + mCameraNum);
 
-                        Toast.makeText(getActivity(), "Preset saved at number " + (which + 1),
-                                Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Preset saved at number " + (which + 1),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            exceptionCatched(": camera not selected");
+                        }
 
                     }
 
@@ -121,14 +134,22 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
     @Override
     public void onClick(View v) {
-        Button butt = (Button) v;
+
+        Button buff = (Button) v;
         // button num + 80 = request parameter
         // redo
-        int presetNum = Integer.valueOf(String.valueOf(butt.getText()));
+        int presetNum = Integer.valueOf(String.valueOf(buff.getText()));
 
-        new SimplePostTask(this)
-                .setServerAndPort(mServer,mPort)
-                .execute("GotoPreset?PresetNumber=" + (presetNum + 80));
+        if (mCameraNum != null) {
+            new SimplePostTask(this)
+                    .setServerAndPort(mServer,mPort)
+                    .execute("GotoPreset?PresetNumber="
+                            + (presetNum + 80)
+                            + "&number=" + mCameraNum);
+        } else {
+            exceptionCatched(": camera not selected");
+        }
+
     }
 
     @Override
@@ -137,8 +158,8 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "Unable to perform request" + message,
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Unable to perform request " + message,
+                            Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (NullPointerException e) {
