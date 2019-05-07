@@ -39,7 +39,6 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
         return this;
     }
 
-
     @Override
     protected String doInBackground(Double... params) {
 
@@ -54,8 +53,6 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
 
-            //connection.connect();
-
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));
             StringBuffer buffer = new StringBuffer();
@@ -66,11 +63,7 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
 
             String finalJson = buffer.toString();
 
-
-
             return finalJson;
-
-
 
         } catch (MalformedURLException e) {
             Log.d("TAG","malformed ");

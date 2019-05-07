@@ -44,7 +44,7 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
 
         HttpURLConnection connection = null;
         BufferedReader reader = null;
-        // String url = "http://188.246.233.224:8080/";
+
         String url = mUrl;
         url = url + params[0];
         Log.d("TAG","url : " + url);
@@ -61,8 +61,6 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
                 Log.d("TAG","GET method");
                 connection.setRequestMethod(mMethod);
             }
-
-            //connection.connect();
 
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));

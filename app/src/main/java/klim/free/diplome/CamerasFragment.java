@@ -158,7 +158,7 @@ public class CamerasFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Camera cameraToConnect = mCameraList.get(position);
-                Log.d(TAG,"tapped on " + cameraToConnect.getNumber());
+                Log.d(TAG,"tapped on camera num#" + cameraToConnect.getNumber());
 
                 mCallback.cameraSelectedCallback(cameraToConnect.getIp(), cameraToConnect.getNumber());
             }

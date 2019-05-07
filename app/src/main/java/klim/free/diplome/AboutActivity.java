@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
@@ -19,7 +19,7 @@ public class AboutActivity extends AppCompatActivity {
         TextView klim = findViewById(R.id.klim);
         TextView denis = findViewById(R.id.denis);
 
-        ImageButton imageButton = findViewById(R.id.github);
+        ImageView imageButton = findViewById(R.id.github);
 
         danil.setOnClickListener(new View.OnClickListener() {
             @Override

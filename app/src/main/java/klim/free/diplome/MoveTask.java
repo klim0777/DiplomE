@@ -38,15 +38,13 @@ public class MoveTask extends AsyncTask<Double, Void, String> {
         url = url + "&y=";
         url = url + params[1];
         url = url + "&number=" +  mNumber;
-        Log.d("TAG2","url : " + url);
+        Log.d("MOVE","url : " + url);
         try {
             URL urlFinal = new URL(url);
             connection = (HttpURLConnection) urlFinal.openConnection();
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
-
-            //connection.connect();
 
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));
@@ -58,12 +56,9 @@ public class MoveTask extends AsyncTask<Double, Void, String> {
 
             String responce = buffer.toString();
 
-            Log.d("TAG","responce + "  + responce);
-
+            Log.d("MOVE","responce "  + responce);
 
             return responce;
-
-
 
         } catch (MalformedURLException e) {
             Log.d("TAG","malformed ");
