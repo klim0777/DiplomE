@@ -88,70 +88,7 @@ public class CamerasFragment extends Fragment
 
 
         final DiscoveryTask.DiscoveryTaskCallback callback = this;
-/*
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // manually add camera
-                LayoutInflater li = LayoutInflater.from(getContext());
-                @SuppressLint("InflateParams") View promptsView = li.inflate(R.layout.camera_dialog, null);
 
-                //Создаем AlertDialog
-                AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
-
-                mDialogBuilder.setView(promptsView);
-
-                //Настраиваем отображение поля для ввода текста в открытом диалоге:
-                final EditText ipEditText = (EditText) promptsView.findViewById(R.id.ip_edit_text);
-                final EditText portEditText = (EditText) promptsView.findViewById(R.id.port_edit_text);
-                final EditText loginEditText = (EditText) promptsView.findViewById(R.id.login_edit_text);
-                final EditText passwordEditText = (EditText) promptsView.findViewById(R.id.password_edit_text);
-
-                //Настраиваем сообщение в диалоговом окне:
-                mDialogBuilder
-                        .setTitle("Add camera")
-                        .setCancelable(false)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
-                                        String ip = ipEditText.getText().toString();
-                                        String port = portEditText.getText().toString();
-                                        String login = loginEditText.getText().toString();
-                                        String password = passwordEditText.getText().toString();
-
-                                        Camera cameraBuff = new Camera(ip,port,1);
-
-                                        if (loginEditText.getText().toString().equals("")) {
-                                            Log.d(TAG,"loginEditText is empty ");
-                                        } else {
-                                            cameraBuff.setLogin(login);
-                                        }
-
-                                        if (passwordEditText.getText().toString().equals("")) {
-                                            Log.d(TAG,"passwordEditText is empty ");
-                                        } else {
-                                            cameraBuff.setPassword(password);
-                                        }
-
-                                        mCameraList.add(cameraBuff);
-                                    }
-                                })
-                        .setNegativeButton("Отмена",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                //Создаем AlertDialog:
-                AlertDialog alertDialog = mDialogBuilder.create();
-
-                //и отображаем его:
-                alertDialog.show();
-
-            }
-        });
-*/
         final SimplePostTask.CallBack callBack = this;
 
         mCameraListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

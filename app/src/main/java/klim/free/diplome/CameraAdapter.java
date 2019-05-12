@@ -21,6 +21,7 @@ public class CameraAdapter extends BaseAdapter {
         mActivity = activity;
         mCameraList = cameraList;
     }
+
     @Override
     public int getCount() {
         return mCameraList.size();
@@ -50,7 +51,6 @@ public class CameraAdapter extends BaseAdapter {
         Camera camera = mCameraList.get(position);
 
         ipTextView.setText(camera.getIp());
-
 
         return convertView;
     }
