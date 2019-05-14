@@ -27,7 +27,6 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
         mCallback = callBack;
     }
 
-
     public SimplePostTask setServerAndPort(String server, String port) {
         mUrl = "http://" + server + ":" + port + "/";
         return this;
