@@ -30,7 +30,6 @@ public class MoveTask extends AsyncTask<Double, Void, String> {
     // get JSONArray
     @Override
     protected String doInBackground(Double... params) {
-
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         String url = mUrl;
@@ -84,8 +83,6 @@ public class MoveTask extends AsyncTask<Double, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
-
-
     }
 
 }

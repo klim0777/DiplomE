@@ -1,8 +1,13 @@
 package klim.free.diplome;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.Xfermode;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Display;
@@ -11,10 +16,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressWarnings({"FieldCanBeLocal", "unused", "NullableProblems", "ConstantConditions"})
 public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
+
     private final static String TAG =  "TAG";
 
     private Button buttonZoomIn, buttonZoomOut;
@@ -26,6 +34,12 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
     private String mServer, mPort;
 
     private Integer mCameraNum;
+
+    private TextView xSpeedView, ySpeedView;
+
+    private ImageView mArrowView;
+
+    private double degree;
 
     public PTZFragment() {
         // Required empty public constructor
@@ -66,26 +80,45 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 switch (event.getAction()) {
                     case (MotionEvent.ACTION_DOWN):
                         Log.d(TAG, "action down");
 
                         xStart = (int) event.getX();
                         yStart = (int) event.getY();
+
+                        mArrowView.setX( (float) xStart);
+                        mArrowView.setY( (float) yStart);
+
                         currSpeedX = 0.0;
                         currSpeedY = 0.0;
+
+                        xSpeedView.setText("x : 0.0");
+                        ySpeedView.setText("y : 0.0");
 
                         return true;
                     case (MotionEvent.ACTION_MOVE):
 
                         int x = (int) event.getX();
                         int y = (int) event.getY();
+
                         tracking(x,y);
 
                         Log.d(TAG, "action move");
                         return true;
                     case (MotionEvent.ACTION_UP):
+
                         Log.d(TAG, "action up");
+
+                        Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_name);
+                        Matrix mat = new Matrix();
+                        mat.postRotate( 0);
+                        Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
+                        mArrowView.setImageBitmap(bMapRotate);
+
+                        xSpeedView.setText("x :");
+                        ySpeedView.setText("y :");
 
                         // move stop
                         if (mCameraNum != null) {
@@ -103,6 +136,11 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
 
         buttonZoomOut = view.findViewById(R.id.buttonZoomOut);
         buttonZoomIn = view.findViewById(R.id.buttonZoomIn);
+
+        xSpeedView = view.findViewById(R.id.xSpeedTextView);
+        ySpeedView = view.findViewById(R.id.ySpeedTextView);
+
+        mArrowView = view.findViewById(R.id.arrow_view);
 
         buttonZoomIn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -208,6 +246,10 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
         int diffX = x - xStart;
         int diffY = y - yStart;
 
+        double a = Math.atan2(diffX,-diffY);
+
+        degree =  Math.toDegrees(a);
+
         double speedX = (double) diffX * 3 / (double) width;
         double speedY = (double) diffY * 3 / (double) height;
 
@@ -234,7 +276,6 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
         }
 
         if (changed) {
-
             if (speedXFormatted > 1) {
                 speedXFormatted = 1.0;
             } else if (speedXFormatted < -1.0) {
@@ -247,6 +288,9 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
                 speedYFormatted = -1.0;
             }
 
+            xSpeedView.setText("x : " + speedXFormatted);
+            ySpeedView.setText("y : " + speedYFormatted);
+
             if (mCameraNum !=  null) {
                 new MoveTask()
                         .setNumber(mCameraNum)
@@ -255,10 +299,15 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
             } else {
                 exceptionCatched(": camera not selected");
             }
-
-
         }
 
+
+        Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_name);
+        Matrix mat = new Matrix();
+        mat.postRotate( (float) degree );
+        Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
+        mArrowView.setImageBitmap(bMapRotate);
     }
+
 
 }
