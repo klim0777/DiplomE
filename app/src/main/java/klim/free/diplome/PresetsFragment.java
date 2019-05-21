@@ -26,8 +26,10 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
     private FloatingActionButton mFab;
 
+    // server and port to connect
     private String mServer, mPort;
 
+    // selected camera
     private Integer mCameraNum;
 
     public void setServerAndPort(String server, String port) {
@@ -155,7 +157,6 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
         Button buff = (Button) v;
         // button num + 80 = request parameter
-        // redo
         int presetNum = Integer.valueOf(String.valueOf(buff.getText()));
 
         if (mCameraNum != null) {
@@ -170,6 +171,7 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
     }
 
+    // SimplePostTask.Callback
     @Override
     public void exceptionCatched(final String message) {
         try {

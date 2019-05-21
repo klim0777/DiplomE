@@ -32,6 +32,7 @@ public class  MainActivity extends AppCompatActivity
 
     private TextView mCameraSelected;
 
+    // list for all classes
     private List<Camera> mCameraList = new ArrayList<>();
 
     private String mServer = "188.246.233.224";
@@ -83,13 +84,13 @@ public class  MainActivity extends AppCompatActivity
         mBottomNavigation.setSelectedItemId(R.id.action_cameras);
 
         mCameraSelected = findViewById(R.id.camera_selected_indicator);
-
     }
 
 
     @Override
     protected void onResume() {
         Bundle extras = getIntent().getExtras();
+        // retrieve ip port data
         if (extras != null) {
             String IP = extras.getString("IP");
             String Port = extras.getString("Port");
@@ -103,7 +104,8 @@ public class  MainActivity extends AppCompatActivity
             camerasFragment.setServerAndPort(mServer,mPort);
 
         }
-        Log.d(TAG,"mainActivity onResume(), server :" + mServer + ", port :" + mPort);
+
+        Log.d(TAG,"mainActivity onResume(), server : " + mServer + ", port :" + mPort);
 
         super.onResume();
     }
@@ -121,13 +123,14 @@ public class  MainActivity extends AppCompatActivity
         return false;
     }
 
+    // SimplePostTask.Callback
     @Override
     public void exceptionCatched(final String message) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(getApplicationContext(), "Unable to perform request " + message,
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -158,6 +161,7 @@ public class  MainActivity extends AppCompatActivity
         return false;
     }
 
+    // CameraFragment.Callback
     @SuppressLint("SetTextI18n")
     @Override
     public void cameraSelectedCallback(String IP, Integer number) {

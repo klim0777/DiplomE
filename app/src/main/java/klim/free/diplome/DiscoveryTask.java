@@ -92,7 +92,7 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
         //Log.d("TAG","responce size : " + response.length());
 
         if ( response == null ) {
-            mCallback.error("null");
+            mCallback.error("responce was null");
             return;
         } else if (response.length() == 0) {
             mCallback.error("No devices found");

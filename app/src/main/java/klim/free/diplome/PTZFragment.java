@@ -19,25 +19,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressWarnings({"FieldCanBeLocal", "unused", "NullableProblems", "ConstantConditions"})
-public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
+public class PTZFragment extends Fragment
+        implements SimplePostTask.CallBack,
+                   GetSnapshotTask.SnapshotCallBack{
 
     private final static String TAG =  "TAG";
 
     private Button buttonZoomIn, buttonZoomOut;
+    private TextView xSpeedView, ySpeedView;
+    private ImageView mArrowView, mSnapshotView;
 
+    // touch move_down coords
     private int xStart, yStart;
-
     private double currSpeedX, currSpeedY;
-
+    // arrow rotating degree
+    private double degree;
+    // server and port to connect
     private String mServer, mPort;
-
+    // selected camera
     private Integer mCameraNum;
 
-    private TextView xSpeedView, ySpeedView;
-
-    private ImageView mArrowView;
-
-    private double degree;
 
     public PTZFragment() {
         // Required empty public constructor
@@ -75,10 +76,10 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
 
         final SimplePostTask.CallBack callBack = this;
 
+        // motion  listener
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 switch (event.getAction()) {
                     case (MotionEvent.ACTION_DOWN):
                         Log.d(TAG, "action down");
@@ -205,11 +206,13 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
             }
         });
 
+        mSnapshotView = view.findViewById(R.id.snapshot_view);
+
         Button getSnapshotButton = view.findViewById(R.id.get_snapshot_button);
         getSnapshotButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new SimplePostTask(PTZFragment.this).execute("GetSnapshot?number=" + mCameraNum);
+                updateSnapshotImage();
             }
         });
 
@@ -224,6 +227,7 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
         super.onResume();
     }
 
+    // SimplePostTaskCallback
     @Override
     public void exceptionCatched(final String message) {
         try {
@@ -238,6 +242,13 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
             Log.d(TAG,"FUCK");
         }
     }
+
+    // GetSnapshotTaskCallback
+    @Override
+    public void snapshotRecieved(Bitmap bitmap) {
+        mSnapshotView.setImageBitmap(bitmap);
+    }
+
 
     private void tracking(int x, int y) {
 
@@ -315,5 +326,8 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
         mArrowView.setImageBitmap(bMapRotate);
     }
 
+    public void updateSnapshotImage() {
+
+    }
 
 }

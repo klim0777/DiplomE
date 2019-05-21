@@ -9,40 +9,34 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@SuppressWarnings({"WeakerAccess", "StringBufferMayBeStringBuilder", "UnusedAssignment", "unused"})
-public class SimplePostTask extends AsyncTask<String, Void, String> {
+public class GetSnapshotTask extends AsyncTask<String, Void, Bitmap> {
 
-    interface CallBack {
+    interface SnapshotCallBack {
         void exceptionCatched(String message);
+        void snapshotRecieved(Bitmap bitmap);
     }
 
     private String mUrl;
-    private String mMethod = "";
+    private Bitmap mBitmap;
 
-    CallBack mCallback;
+    SnapshotCallBack mCallback;
 
-    SimplePostTask(CallBack callBack) {
+
+    GetSnapshotTask(SnapshotCallBack callBack) {
         mCallback = callBack;
     }
 
-    public SimplePostTask setServerAndPort(String server, String port) {
+    public GetSnapshotTask setServerAndPort(String server, String port) {
         mUrl = "http://" + server + ":" + port + "/";
         return this;
     }
 
-    public SimplePostTask setMethod(String method) {
-        mMethod = method;
-        return this;
-    }
-
-    // get JSONArray
     @Override
-    protected String doInBackground(String... params) {
+    protected Bitmap doInBackground(String... params) {
 
         HttpURLConnection connection = null;
         BufferedReader reader = null;
@@ -56,30 +50,17 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
             connection.setDoInput(true);
             connection.setDoOutput(true);
 
-            if (mMethod.equals("")) {
-                Log.d("TAG","method was null, has been set to POST");
-                connection.setRequestMethod("POST");
-            } else {
-                Log.d("TAG","GET method");
-                connection.setRequestMethod(mMethod);
-            }
+            connection.setRequestMethod("POST");
 
             InputStream stream = connection.getInputStream();
 
-            reader = new BufferedReader(new InputStreamReader(stream));
-            StringBuffer buffer = new StringBuffer();
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line);
-            }
+            BufferedInputStream bis = new BufferedInputStream(stream);
+            mBitmap = BitmapFactory.decodeStream(bis);
+            bis.close();
 
-            stream.close();
+            Log.d("TAG","responce " + mBitmap.getWidth());
 
-            String finalJson = buffer.toString();
-
-            Log.d("TAG","responce " + finalJson);
-
-            return finalJson;
+            return mBitmap;
 
         } catch (MalformedURLException e) {
             Log.d("TAG","malformed ");
@@ -101,15 +82,18 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
         }
-        return null;
+        return  null;
     }
 
     @Override
-    protected void onPostExecute(String response) {
+    protected void onPostExecute(Bitmap response) {
         super.onPostExecute(response);
+        if (response != null) {
+            mCallback.snapshotRecieved(mBitmap);
+        } else {
+            mCallback.exceptionCatched(" responce null");
+        }
 
     }
 
 }
-
-

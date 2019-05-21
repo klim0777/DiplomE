@@ -132,7 +132,7 @@ public class CamerasFragment extends Fragment
                 @Override
                 public void run() {
                     Toast.makeText(getActivity(), "Unable to perform request " + message,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (NullPointerException e) {
