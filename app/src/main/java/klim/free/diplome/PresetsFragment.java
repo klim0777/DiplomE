@@ -1,6 +1,7 @@
 package klim.free.diplome;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,8 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
     private Button button1,button2,button3,button4,button5,
                    button6,button7,button8,button9,button10;
+
+    private Button mHomeButton;
 
     private FloatingActionButton mFab;
 
@@ -122,6 +125,21 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
         button8.setOnClickListener(this);
         button9.setOnClickListener(this);
         button10.setOnClickListener(this);
+
+        mHomeButton = view.findViewById(R.id.home_button);
+
+        mHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCameraNum != null) {
+                    new SimplePostTask(callBack)
+                            .setServerAndPort(mServer, mPort)
+                            .execute("GotoHome?number=" + mCameraNum);
+                } else {
+                    exceptionCatched(": camera not selected");
+                }
+            }
+        });
 
         return view;
     }

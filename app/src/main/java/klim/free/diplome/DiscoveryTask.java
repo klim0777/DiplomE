@@ -2,7 +2,6 @@ package klim.free.diplome;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +28,7 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
 
     interface DiscoveryTaskCallback {
         void success();
-        void error();
+        void error(String message);
     }
 
     private DiscoveryTaskCallback mCallback;
@@ -89,12 +88,19 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
-        Log.d("TAG","response " + response);
 
-        if (response == null) {
-            mCallback.error();
+        //Log.d("TAG","responce size : " + response.length());
+
+        if ( response == null ) {
+            mCallback.error("null");
             return;
+        } else if (response.length() == 0) {
+            mCallback.error("No devices found");
+            return;
+        } else {
+            Log.d("TAG","devices found : " + response.length());
         }
+
 
         List<String> list = new ArrayList<String>(Arrays.asList(response.split(",")));
 

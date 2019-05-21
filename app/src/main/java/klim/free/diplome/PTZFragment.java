@@ -205,6 +205,14 @@ public class PTZFragment extends Fragment implements SimplePostTask.CallBack {
             }
         });
 
+        Button getSnapshotButton = view.findViewById(R.id.get_snapshot_button);
+        getSnapshotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SimplePostTask(PTZFragment.this).execute("GetSnapshot?number=" + mCameraNum);
+            }
+        });
+
         return view;
     }
 

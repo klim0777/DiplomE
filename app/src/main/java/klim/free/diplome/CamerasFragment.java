@@ -149,9 +149,9 @@ public class CamerasFragment extends Fragment
     }
     // Discovery task callback
     @Override
-    public void error() {
+    public void error(String message) {
         mSwipeRefreshLayout.setRefreshing(false);
-        exceptionCatched(": discovery failed");
+        exceptionCatched(": discovery failed. " + message);
     }
 
 }
