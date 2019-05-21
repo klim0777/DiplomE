@@ -63,7 +63,6 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
             String finalJson = buffer.toString();
 
             return finalJson;
-
         } catch (MalformedURLException e) {
             Log.d("TAG","malformed ");
             e.printStackTrace();
@@ -89,8 +88,6 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
 
-        //Log.d("TAG","responce size : " + response.length());
-
         if ( response == null ) {
             mCallback.error("responce was null");
             return;
@@ -100,7 +97,6 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
         } else {
             Log.d("TAG","devices found : " + response.length());
         }
-
 
         List<String> list = new ArrayList<String>(Arrays.asList(response.split(",")));
 
@@ -113,7 +109,6 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
                 mCameraList.add(buff);
             }
         }
-
 
         mCallback.success();
     }
