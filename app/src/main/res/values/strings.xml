@@ -9,4 +9,5 @@
     <string name="about_developers">About developers</string>
     <string name="server_ip">server IP</string>
     <string name="server_port">server Port</string>
+    <string name="swipe_down_to_find_cameras">Swipe down to find cameras</string>
 </resources>

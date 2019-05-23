@@ -42,7 +42,7 @@ public class GetSnapshotTask extends AsyncTask<String, Void, Bitmap> {
         BufferedReader reader = null;
 
         String url = mUrl;
-        url = url + params[0];
+        url = url + "GetSnapshot?" + params[0];
         Log.d("TAG","url : " + url);
         try {
             URL urlFinal = new URL(url);
@@ -91,7 +91,7 @@ public class GetSnapshotTask extends AsyncTask<String, Void, Bitmap> {
         if (response != null) {
             mCallback.snapshotRecieved(mBitmap);
         } else {
-            mCallback.exceptionCatched(" responce null");
+           // mCallback.exceptionCatched(" responce null");
         }
 
     }

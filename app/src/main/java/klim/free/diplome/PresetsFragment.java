@@ -187,4 +187,9 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
         }
 
     }
+
+    @Override
+    public void cameraAdded(){
+
+    }
 }

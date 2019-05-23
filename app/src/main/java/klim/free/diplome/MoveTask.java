@@ -60,10 +60,10 @@ public class MoveTask extends AsyncTask<Double, Void, String> {
             return responce;
 
         } catch (MalformedURLException e) {
-            Log.d("TAG","malformed ");
+            Log.d("MOVE","malformed ");
             e.printStackTrace();
         } catch (IOException e) {
-            Log.d("TAG","io ");
+            Log.d("MOVE","io ");
             e.printStackTrace();
         } finally {
             if(connection != null) {

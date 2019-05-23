@@ -19,6 +19,7 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
 
     interface CallBack {
         void exceptionCatched(String message);
+        void cameraAdded();
     }
 
     private String mUrl;
@@ -83,11 +84,11 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
 
         } catch (MalformedURLException e) {
             Log.d("TAG","malformed ");
-            mCallback.exceptionCatched(e.getMessage());
+            //mCallback.exceptionCatched(e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
             Log.d("TAG","io ");
-            mCallback.exceptionCatched(e.getMessage());
+            //mCallback.exceptionCatched(e.getMessage());
             e.printStackTrace();
         } finally {
             if(connection != null) {
@@ -107,6 +108,13 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
+
+        if (response != null) {
+            if (response.equals("cameraAdded")) {
+                mCallback.cameraAdded();
+            }
+        }
+
 
     }
 

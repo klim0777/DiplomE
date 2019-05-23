@@ -6,12 +6,19 @@ public class Camera {
     private String login, password;
     private Integer number;
 
-    Camera(String ip, String port, Integer number) {
+    Camera(String ip, String port, int number) {
         this.ip = ip;
         this.port = port;
-        this.number = number;
         login = "admin";
         password = "Supervisor";
+        this.number = number;
+    }
+
+    Camera(String ip, String port, String login, String password) {
+        this.ip = ip;
+        this.port = port;
+        this.login = login;
+        this.password = password;
     }
 
     public String getIp() {

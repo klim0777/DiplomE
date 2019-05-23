@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Display;
@@ -80,9 +82,12 @@ public class PTZFragment extends Fragment
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 switch (event.getAction()) {
                     case (MotionEvent.ACTION_DOWN):
                         Log.d(TAG, "action down");
+
+                        //updateSnapshotImage();
 
                         xStart = (int) event.getX();
                         yStart = (int) event.getY();
@@ -99,6 +104,7 @@ public class PTZFragment extends Fragment
                         return true;
                     case (MotionEvent.ACTION_MOVE):
 
+
                         int x = (int) event.getX();
                         int y = (int) event.getY();
 
@@ -110,11 +116,16 @@ public class PTZFragment extends Fragment
 
                         Log.d(TAG, "action up");
 
-                        Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_name);
+                        updateSnapshotImage();
+
+                        Bitmap arrowBitmap = BitmapFactory.decodeResource(getResources(),
+                                R.drawable.ic_action_name);
                         Matrix mat = new Matrix();
                         mat.postRotate( 0);
-                        Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
-                        mArrowView.setImageBitmap(bMapRotate);
+                        Bitmap arrowBitmapRotated = Bitmap.createBitmap(arrowBitmap, 0, 0,
+                                arrowBitmap.getWidth(), arrowBitmap.getHeight(), mat, true);
+
+                        mArrowView.setImageBitmap(arrowBitmapRotated);
 
                         xSpeedView.setText("x :");
                         ySpeedView.setText("y :");
@@ -208,14 +219,6 @@ public class PTZFragment extends Fragment
 
         mSnapshotView = view.findViewById(R.id.snapshot_view);
 
-        Button getSnapshotButton = view.findViewById(R.id.get_snapshot_button);
-        getSnapshotButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateSnapshotImage();
-            }
-        });
-
         return view;
     }
 
@@ -241,6 +244,11 @@ public class PTZFragment extends Fragment
         } catch (NullPointerException e) {
             Log.d(TAG,"FUCK");
         }
+    }
+
+    @Override
+    public void cameraAdded() {
+
     }
 
     // GetSnapshotTaskCallback
@@ -327,7 +335,9 @@ public class PTZFragment extends Fragment
     }
 
     public void updateSnapshotImage() {
-
+        new GetSnapshotTask(this)
+                .setServerAndPort(mServer,mPort)
+                .execute("number=" + mCameraNum);
     }
 
 }
