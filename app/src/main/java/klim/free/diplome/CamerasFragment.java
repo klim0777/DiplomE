@@ -1,5 +1,6 @@
 package klim.free.diplome;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -115,6 +116,7 @@ public class CamerasFragment extends Fragment
             // manually add camera
             LayoutInflater li = LayoutInflater.from(getContext());
 
+            @SuppressLint("InflateParams")
             View promptsView = li.inflate(R.layout.camera_dialog, null);
 
             //Создаем AlertDialog

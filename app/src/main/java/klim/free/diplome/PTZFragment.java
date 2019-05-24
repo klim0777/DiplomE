@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 @SuppressWarnings({"FieldCanBeLocal", "unused", "NullableProblems", "ConstantConditions"})
 public class PTZFragment extends Fragment
         implements SimplePostTask.CallBack,
@@ -116,8 +118,6 @@ public class PTZFragment extends Fragment
 
                         Log.d(TAG, "action up");
 
-                        updateSnapshotImage();
-
                         Bitmap arrowBitmap = BitmapFactory.decodeResource(getResources(),
                                 R.drawable.ic_action_name);
                         Matrix mat = new Matrix();
@@ -135,6 +135,7 @@ public class PTZFragment extends Fragment
                             new SimplePostTask(callBack)
                                     .setServerAndPort(mServer, mPort)
                                     .execute("MoveStop?number=" + mCameraNum);
+                            updateSnapshotImage();
                         } else {
                             exceptionCatched(": camera not selected");
                         }
@@ -155,7 +156,7 @@ public class PTZFragment extends Fragment
         buttonZoomIn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
+                /*switch (event.getAction()) {
                     case (MotionEvent.ACTION_DOWN) :
 
                         if (mCameraNum != null) {
@@ -180,9 +181,13 @@ public class PTZFragment extends Fragment
                         }
                         return true;
                 }
-                return false;
+                return false;*/
+
+                return Ping("188.246.233.224");
+
             }
         });
+
 
         buttonZoomOut.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -221,7 +226,32 @@ public class PTZFragment extends Fragment
 
         return view;
     }
-
+    private boolean Ping(String IP){
+        System.out.println("executeCommand");
+        Runtime runtime = Runtime.getRuntime();
+        try
+        {
+            Process  mIpAddrProcess = runtime.exec("/system/bin/ping -c 1 " + IP);
+            int mExitValue = mIpAddrProcess.waitFor();
+            Log.d("FUCK","ping " + mExitValue);
+            if(mExitValue==0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        catch (InterruptedException ignore)
+        {
+            ignore.printStackTrace();
+            System.out.println(" Exception:"+ignore);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            System.out.println(" Exception:"+e);
+        }
+        return false;
+    }
 
 
     @Override
@@ -237,7 +267,7 @@ public class PTZFragment extends Fragment
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "Unable to perform request " + message,
+                    Toast.makeText(getActivity(), "" + message,
                             Toast.LENGTH_SHORT).show();
                 }
             });

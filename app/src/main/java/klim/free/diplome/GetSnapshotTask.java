@@ -68,7 +68,7 @@ public class GetSnapshotTask extends AsyncTask<String, Void, Bitmap> {
             e.printStackTrace();
         } catch (IOException e) {
             Log.d("TAG","io ");
-            mCallback.exceptionCatched(e.getMessage());
+            mCallback.exceptionCatched("snapshot :(");
             e.printStackTrace();
         } finally {
             if(connection != null) {
