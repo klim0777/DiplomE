@@ -1,13 +1,14 @@
 package klim.free.diplome;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Display;
@@ -24,7 +25,7 @@ import java.io.IOException;
 
 @SuppressWarnings({"FieldCanBeLocal", "unused", "NullableProblems", "ConstantConditions"})
 public class PTZFragment extends Fragment
-        implements SimplePostTask.CallBack,
+        implements SimpleTask.CallBack,
                    GetSnapshotTask.SnapshotCallBack{
 
     private final static String TAG =  "TAG";
@@ -78,7 +79,7 @@ public class PTZFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ptz, container, false);
 
-        final SimplePostTask.CallBack callBack = this;
+        final SimpleTask.CallBack callBack = this;
 
         // motion  listener
         view.setOnTouchListener(new View.OnTouchListener() {
@@ -88,6 +89,8 @@ public class PTZFragment extends Fragment
                 switch (event.getAction()) {
                     case (MotionEvent.ACTION_DOWN):
                         Log.d(TAG, "action down");
+
+                        VibrationEffect vibrationEffect = VibrationEffect.createOneShot(100,VibrationEffect.DEFAULT_AMPLITUDE);
 
                         //updateSnapshotImage();
 
@@ -132,12 +135,12 @@ public class PTZFragment extends Fragment
 
                         // move stop
                         if (mCameraNum != null) {
-                            new SimplePostTask(callBack)
+                            new SimpleTask(callBack)
                                     .setServerAndPort(mServer, mPort)
                                     .execute("MoveStop?number=" + mCameraNum);
                             updateSnapshotImage();
                         } else {
-                            exceptionCatched(": camera not selected");
+                            exceptionCatched("camera not selected");
                         }
                         return true;
                 }
@@ -156,15 +159,15 @@ public class PTZFragment extends Fragment
         buttonZoomIn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                /*switch (event.getAction()) {
+                switch (event.getAction()) {
                     case (MotionEvent.ACTION_DOWN) :
 
                         if (mCameraNum != null) {
-                            new SimplePostTask(callBack)
+                            new SimpleTask(callBack)
                                     .setServerAndPort(mServer,mPort)
                                     .execute("ZoomIn?number=" + mCameraNum);
                         } else {
-                            exceptionCatched(": camera not selected");
+                            exceptionCatched("camera not selected");
                         }
 
                         Log.d(TAG,"down");
@@ -172,19 +175,19 @@ public class PTZFragment extends Fragment
                     case (MotionEvent.ACTION_MOVE) :
                         return true;
                     case (MotionEvent.ACTION_UP) :
+
                         if (mCameraNum != null) {
-                            new SimplePostTask(callBack)
+                            new SimpleTask(callBack)
                                     .setServerAndPort(mServer,mPort)
                                     .execute("MoveStop?number=" + mCameraNum);
+                            updateSnapshotImage();
                         } else {
-                            exceptionCatched(": camera not selected");
+                            exceptionCatched("camera not selected");
                         }
+
                         return true;
                 }
-                return false;*/
-
-                return Ping("188.246.233.224");
-
+                return false;
             }
         });
 
@@ -196,11 +199,11 @@ public class PTZFragment extends Fragment
                     case (MotionEvent.ACTION_DOWN):
 
                         if (mCameraNum != null) {
-                            new SimplePostTask(callBack)
+                            new SimpleTask(callBack)
                                     .setServerAndPort(mServer,mPort)
                                     .execute("ZoomOut?number=" + mCameraNum);
                         } else {
-                            exceptionCatched(": camera not selected");
+                            exceptionCatched("camera not selected");
                         }
 
                         return true;
@@ -209,11 +212,12 @@ public class PTZFragment extends Fragment
                     case (MotionEvent.ACTION_UP):
 
                         if (mCameraNum != null) {
-                            new SimplePostTask(callBack)
+                            new SimpleTask(callBack)
                                     .setServerAndPort(mServer,mPort)
                                     .execute("MoveStop?number=" + mCameraNum);
+                            updateSnapshotImage();
                         } else {
-                            exceptionCatched(": camera not selected");
+                            exceptionCatched("camera not selected");
                         }
 
                         return true;
@@ -226,38 +230,14 @@ public class PTZFragment extends Fragment
 
         return view;
     }
-    private boolean Ping(String IP){
-        System.out.println("executeCommand");
-        Runtime runtime = Runtime.getRuntime();
-        try
-        {
-            Process  mIpAddrProcess = runtime.exec("/system/bin/ping -c 1 " + IP);
-            int mExitValue = mIpAddrProcess.waitFor();
-            Log.d("FUCK","ping " + mExitValue);
-            if(mExitValue==0){
-                return true;
-            }else{
-                return false;
-            }
-        }
-        catch (InterruptedException ignore)
-        {
-            ignore.printStackTrace();
-            System.out.println(" Exception:"+ignore);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            System.out.println(" Exception:"+e);
-        }
-        return false;
-    }
-
 
     @Override
     public void onResume() {
         Log.d(TAG,"ptzFragment resume");
         super.onResume();
+        if (mCameraNum != null) {
+            updateSnapshotImage();
+        }
     }
 
     // SimplePostTaskCallback
@@ -352,7 +332,7 @@ public class PTZFragment extends Fragment
                         .setServerAndPort(mServer,mPort)
                         .execute(speedXFormatted,-speedYFormatted);
             } else {
-                exceptionCatched(": camera not selected");
+                exceptionCatched("camera not selected");
             }
         }
 

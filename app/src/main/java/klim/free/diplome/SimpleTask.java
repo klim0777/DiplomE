@@ -1,11 +1,8 @@
 package klim.free.diplome;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @SuppressWarnings({"WeakerAccess", "StringBufferMayBeStringBuilder", "UnusedAssignment", "unused"})
-public class SimplePostTask extends AsyncTask<String, Void, String> {
+public class SimpleTask extends AsyncTask<String, Void, String> {
 
     interface CallBack {
         void exceptionCatched(String message);
@@ -27,16 +24,16 @@ public class SimplePostTask extends AsyncTask<String, Void, String> {
 
     CallBack mCallback;
 
-    SimplePostTask(CallBack callBack) {
+    SimpleTask(CallBack callBack) {
         mCallback = callBack;
     }
 
-    public SimplePostTask setServerAndPort(String server, String port) {
+    public SimpleTask setServerAndPort(String server, String port) {
         mUrl = "http://" + server + ":" + port + "/";
         return this;
     }
 
-    public SimplePostTask setMethod(String method) {
+    public SimpleTask setMethod(String method) {
         mMethod = method;
         return this;
     }

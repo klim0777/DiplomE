@@ -102,7 +102,7 @@ public class DiscoveryTask  extends AsyncTask<Double, Void, String> {
 
         for (int i = 0; i < list.size() ; i++) {
             if (i % 3 == 0) {
-                Camera buff = new Camera(list.get(i), list.get(i+1), Integer.valueOf(list.get(i+2)));
+                 Camera buff = new Camera(list.get(i), list.get(i+1), Integer.valueOf(list.get(i+2)));
                 Log.d("TAG","i = " + i +
                         " camera : " + buff.getIp() +
                         " " +  buff.getPort() + " " + buff.getNumber());

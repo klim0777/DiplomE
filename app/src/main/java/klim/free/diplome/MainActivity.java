@@ -19,7 +19,7 @@ import java.util.List;
 
 @SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class  MainActivity extends AppCompatActivity
-        implements SimplePostTask.CallBack,
+        implements SimpleTask.CallBack,
                    CamerasFragment.CameraSelected {
 
     private final static String TAG = "TAG";
@@ -123,7 +123,7 @@ public class  MainActivity extends AppCompatActivity
         return false;
     }
 
-    // SimplePostTask.Callback
+    // SimpleTask.Callback
     @Override
     public void exceptionCatched(final String message) {
         runOnUiThread(new Runnable() {

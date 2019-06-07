@@ -23,7 +23,7 @@ import java.util.List;
 public class CamerasFragment extends Fragment
         implements DiscoveryTask.DiscoveryTaskCallback,
         SwipeRefreshLayout.OnRefreshListener,
-        SimplePostTask.CallBack {
+        SimpleTask.CallBack {
 
     interface CameraSelected {
         void cameraSelectedCallback(String IP, Integer number);
@@ -79,7 +79,7 @@ public class CamerasFragment extends Fragment
                              Bundle savedInstanceState) {
 
         final DiscoveryTask.DiscoveryTaskCallback callback = this;
-        final SimplePostTask.CallBack callBack = this;
+        final SimpleTask.CallBack callBack = this;
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cameras, container, false);
@@ -148,7 +148,7 @@ public class CamerasFragment extends Fragment
                                     String password = passwordEditText.getText().toString();
                                     Camera cameraBuff = new Camera(ip, port, login, password);
 
-                                    new SimplePostTask(CamerasFragment.this)
+                                    new SimpleTask(CamerasFragment.this)
                                             .setServerAndPort(mServer,mPort)
                                             .execute("AddCamera?ip=" + ip
                                             + "&port=" + port + "&login=" + login
@@ -194,7 +194,7 @@ public class CamerasFragment extends Fragment
         doDiscovery();
     }
 
-    // SimplePostTask callback
+    // SimpleTask callback
     @SuppressWarnings("ConstantConditions")
     @Override
     public void exceptionCatched(final String message) {
@@ -211,7 +211,7 @@ public class CamerasFragment extends Fragment
         }
     }
 
-    // SimplePostTask callback
+    // SimpleTask callback
     @Override
     public void cameraAdded() {
         //doDiscovery();

@@ -1,7 +1,6 @@
 package klim.free.diplome;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 
 
 @SuppressWarnings({"FieldCanBeLocal", "unused", "NullableProblems", "ConstantConditions"})
-public class PresetsFragment extends Fragment implements View.OnClickListener, SimplePostTask.CallBack {
+public class PresetsFragment extends Fragment implements View.OnClickListener, SimpleTask.CallBack {
 
     private final static String TAG =  "TAG";
 
@@ -69,7 +68,7 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_presets, container, false);
 
-        final SimplePostTask.CallBack callBack = this;
+        final SimpleTask.CallBack callBack = this;
 
         mFab = view.findViewById(R.id.floatingActionButton);
 
@@ -86,7 +85,7 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
                         dialog.dismiss();
 
                         if (mCameraNum != null) {
-                            new SimplePostTask(callBack)
+                            new SimpleTask(callBack)
                                     .setServerAndPort(mServer,mPort)
                                     .execute("SetPreset?PresetNumber="
                                             + (which + 81)
@@ -134,7 +133,7 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
             @Override
             public void onClick(View v) {
                 if (mCameraNum != null) {
-                    new SimplePostTask(callBack)
+                    new SimpleTask(callBack)
                             .setServerAndPort(mServer, mPort)
                             .execute("GotoHome?number=" + mCameraNum);
                 } else {
@@ -160,7 +159,7 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
         int presetNum = Integer.valueOf(String.valueOf(buff.getText()));
 
         if (mCameraNum != null) {
-            new SimplePostTask(this)
+            new SimpleTask(this)
                     .setServerAndPort(mServer,mPort)
                     .execute("GotoPreset?PresetNumber="
                             + (presetNum + 80)
@@ -171,7 +170,7 @@ public class PresetsFragment extends Fragment implements View.OnClickListener, S
 
     }
 
-    // SimplePostTask.Callback
+    // SimpleTask.Callback
     @Override
     public void exceptionCatched(final String message) {
         try {
